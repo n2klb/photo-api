@@ -777,8 +777,11 @@ PhotoBuffer *photo_stream_get_buffer_with_metadata(PhotoStream *stream, int num_
     PhotoBuffer *buffer = NULL, *next_buffer = stream->impl->get_next_buffer(stream, num_meta_reqs,
                                                                              meta_reqs);
 
-    while (skip_to_last && next_buffer) {
+    while (next_buffer) {
         buffer = next_buffer;
+        if (!skip_to_last) {
+            break;
+        }
 
         next_buffer = stream->impl->get_next_buffer(stream, num_meta_reqs, meta_reqs);
         if (!next_buffer) {
